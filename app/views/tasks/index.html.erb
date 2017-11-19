@@ -1,0 +1,42 @@
+<h2>一覧画面</h2>
+<%= link_to "全て表示", tasks_path %>
+<%= link_to "完了のみ", tasks_path + "?kanryo=true", style:"margin-left:5px;" %>
+<%= link_to "未完了のみ", tasks_path + "?kanryo=false", style:"margin-left:5px;" %>
+<%= link_to "タスクを登録", new_task_path, class:"pull-right" %>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th class="grid-th-width1 pc-only">No</th>
+    <th class="grid-th-width2">タスク</th>
+    <th class="grid-th-width3">期限</th>
+    <th class="grid-th-width4">ｽﾃｰﾀｽ</th>
+    <th class="grid-th-width5">編集</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tasks.each do |task| %>
+      <tr style="height:48px;">
+        <td class="pc-only"><%= @grid_no.to_s %></td>
+        <td style="vertical-align: middle"><%= task.name %></td>
+        <td style="vertical-align: middle"><%= kigen_format(task.kigen) %></td>
+        <td style="vertical-align: middle"><%= kanryo_tag(task) %></td>
+        <td class="henshu-cell">
+          <%= link_to "照会", task_path(task) %>
+          <%= link_to "編集", edit_task_path(task) %>
+          <%= link_to "削除", task_path(task), method:"delete" %>
+        </td>
+      </tr>
+      <% @grid_no = @grid_no + 1 %>
+  <% end %>
+  <tbody>
+  </table>
+<div style="text-align: center">
+  <%= will_paginate @tasks,
+                    renderer: BootstrapPagination::Rails,
+                    previous_label: "前へ",
+                    next_label: "次へ",
+                    inner_window: 1,
+                    outer_window: 0,
+                    class:"pagination-sm"
+  %>
+</div>

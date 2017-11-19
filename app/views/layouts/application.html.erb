@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>タスク管理 サンプル (Ruby on Rails)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <%= stylesheet_link_tag    'application', media: 'all'  %>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <%= javascript_include_tag 'application' %>
+  <style type="text/css">
+    .waku{
+      padding:20px;
+      margin-bottom:20px;
+      border-radius:4px;
+      border:2px solid #ddd;
+    }
+    @media (max-width: 768px) {
+      h1#title{
+        font-size:16pt;
+      }
+      a {
+        -webkit-tap-highlight-color: rgba(16, 16, 16, 0.3);
+      }
+      .pc-only{
+        display:none;
+      }
+      .grid-th-width1{
+        width:0%;
+      }
+      .grid-th-width2{
+        width:50%;
+      }
+      .grid-th-width3{
+        width:15%;
+      }
+      .grid-th-width4{
+        width:20%;
+      }
+      .grid-th-width5{
+        width:15%;
+      }
+      .henshu-cell a{
+        display:block;
+        text-align:center;
+      }
+    }
+    @media (min-width: 769px) {
+      h1#title{
+        font-size:24pt;
+      }
+      .grid-th-width1{
+        width:10%;
+      }
+      .grid-th-width2{
+        width:55%;
+      }
+      .grid-th-width3{
+        width:10%;
+      }
+      .grid-th-width4{
+        width:10%;
+      }
+      .grid-th-width5{
+        width:15%;
+      }
+      .henshu-cell a{
+        margin-right:10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<script>
+  $(function() {
+    // 登録画面の作成②で追加 ここから
+    if ($("#task_kigen_str").length)
+    {
+      $("#task_kigen_str").datepicker();
+      $("#task_kigen_str").datepicker("option", "dateFormat", 'yymmdd');
+      <% if @task.present? %>
+      $("#task_kigen_str").val("<%= @task.kigen_str %>");
+      <% end %>
+    }
+    // 登録画面の作成②で追加 ここまで
+    if ($(".alert").length)
+    {
+      $(".alert").show();
+    }
+  });
+</script>
+<header id="header" style="background-color: #333;color:#fff">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 id="title">
+          タスク管理 サンプル (Ruby on Rails)
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <!-- 登録画面の作成②で追加 ここから -->
+        <% if @task.present? && @task.errors.present? %>
+            <div class="alert alert-danger" style="margin-top:20px;border-width:3px;display:none">
+              <ul>
+                <% @task.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <!-- 登録画面の作成②で追加 ここから -->
+        <% if flash[:msg].present? %>
+            <div class="alert alert-info" style="margin-top:20px;border-width:3px;display:none">
+              <ul>
+                <li><%= flash[:msg] %></li>
+              </ul>
+            </div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</main>
+<footer id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div style="padding-top:10px;text-align: center;border-top: 1px #999999 solid;">
+          <p>フッター</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
